@@ -39,38 +39,58 @@ body {
 }
 .menu-bar {
   text-align: center;
-  margin: 0 0 12px 0;
+  margin: 24px auto 24px auto;
+  background: #fff;
+  border-radius: 16px;
+  box-shadow: 0 4px 24px #0001;
+  padding: 18px 0 10px 0;
+  max-width: 540px;
+  display: flex;
+  justify-content: center;
+  gap: 18px;
 }
 .menu-bar button {
-  font-size: 1.1rem;
-  margin: 0 10px;
-  padding: 10px 22px;
+  font-size: 1.15rem;
+  margin: 0 8px;
+  padding: 12px 32px;
   border-radius: 8px;
   border: none;
   background: #1976d2;
   color: #fff;
   cursor: pointer;
-  transition: background 0.2s;
+  transition: background 0.2s, transform 0.15s;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  box-shadow: 0 2px 8px #0001;
 }
 .menu-bar button:hover,
 .menu-bar button.active {
   background: #388e3c;
+  transform: translateY(-2px) scale(1.04);
 }
 h1 {
-  font-size: 2.5rem;
-  color: #333;
+  font-size: 2.7rem;
+  color: #1976d2;
   margin-bottom: 10px;
   text-align: center;
   margin-top: 0;
+  letter-spacing: 1px;
+  font-weight: 800;
+  text-shadow: 0 2px 8px #0001;
 }
 .intro {
-  font-size: 1.15rem;
-  color: #444;
+  font-size: 1.18rem;
+  color: #333;
   text-align: center;
-  margin-bottom: 28px;
-  max-width: 700px;
+  margin-bottom: 32px;
+  max-width: 900px;
   margin-left: auto;
   margin-right: auto;
+  background: #fff;
+  border-radius: 14px;
+  box-shadow: 0 2px 16px #0001;
+  padding: 22px 32px;
+  line-height: 1.6;
 }
 .game-container {
   display: flex;
@@ -144,7 +164,7 @@ h1 {
 .board[data-color="red"] { background-color: red; }
 .board[data-color="blue"] { background-color: blue; }
 .board[data-color="green"] { background-color: green; }
-.board[data-color="yellow"] { background-color: yellow; }
+.board[data-color="yellow"] { background-color: yellow; color: #000;}
 .board[data-color="purple"] { background-color: purple; }
 .board:hover {
   transform: scale(1.1);
@@ -221,7 +241,34 @@ button:hover {
 .accessibility-demo.accessible .gaad-btn { background: #fff; color: #222; border: 2px solid #222; }
 .accessibility-demo.accessible .good-btn { background: #1976D2; color: #fff; }
 .accessibility-demo.accessible .gost-btn { background: #388E3C; color: #fff; }
-
+.accessibility-demo.greyscale .input-feedback {
+  filter: grayscale(100%);
+}
+.highlight-input {
+  padding: 14px 18px;
+  border-radius: 8px;
+  font-weight: bold;
+  font-size: 1.1rem;
+  min-width: 220px;
+  border: 2.5px solid transparent;
+  outline: none;
+  transition: filter 0.2s, border-color 0.2s, background 0.2s, color 0.2s;
+  margin: 0 4px;
+  box-shadow: 0 2px 8px #0002;
+}
+.success-input {
+  border-color: #388E3C;
+  background: #e8f5e9;
+  color: #222;
+}
+.error-input {
+  border-color: #D32F2F;
+  background: #ffebee;
+  color: #222;
+}
+.accessibility-demo.greyscale .highlight-input {
+  filter: grayscale(100%);
+}
 </style>
 </head>
 <body>
@@ -246,7 +293,7 @@ button:hover {
 <!-- Main Heading and Intro -->
 <h1>Monochromacy Simulation</h1>
 <div class="intro">
-  This interactive game helps you understand the importance of color and accessibility in design. Drag and drop colored balls into their matching boxes, and try the greyscale mode to experience how colorblind users perceive your choices. Explore the Accessibility Color Demo to learn about good and bad color contrast for everyone.
+  This interactive game helps you understand the importance of color and accessibility in design. Drag and drop colored balls into their matching boxes, and try the greyscale mode to experience how users with monochromacy perceive your choices. Explore the Monochromacy Accessibility Color Demo to learn about good and bad color contrast for everyone.
 </div>
 
 <!-- Color Quest Section -->
@@ -331,18 +378,94 @@ button:hover {
    <div id="accessButtons" style="display:flex; gap:20px; justify-content:center; margin-bottom:16px;">
   <button class="contrast-btn gaad-btn">GAAD</button>
   <button class="contrast-btn good-btn">GOOD</button>
-  <button class="contrast-btn gost-btn">GOST</button>
+  <button class="contrast-btn gost-btn">GOLD</button>
 </div>
+<div style="display: flex; gap: 18px; justify-content: center; margin-bottom: 18px;">
+  <div style="display:flex; flex-direction:column; align-items:center;">
+    <input type="text" class="highlight-input success-input" placeholder="input 1 (type here)">
+    <span class="input-feedback success-feedback" style="display:none; color:#388E3C; font-size:1.05rem; margin-top:4px;">
+      <span style="font-size:1.3em;">&#10003;</span> Your input is correct
+    </span>
+  </div>
+  <div style="display:flex; flex-direction:column; align-items:center;">
+    <input type="text" class="highlight-input error-input" placeholder="input 2 (type here)">
+    <span class="input-feedback error-feedback" style="display:none; color:#D32F2F; font-size:1.05rem; margin-top:4px;">
+      <span style="font-size:1.3em;">&#10007;</span> Your input is incorrect
+    </span>
+  </div>
+</div>
+
     <button id="accessGreyscaleBtn" style="margin:0 8px;">Toggle Greyscale</button>
-    <button id="accessibilityToggleBtn" style="margin:0 8px;">Show Accessible Colors</button>
+    <button id="accessibilityToggleBtn" style="margin:0 8px;">Show Accessible Options</button>
     <div style="font-size:0.95rem; color:#444; margin-top:10px;">
-      Try toggling greyscale and see which buttons remain readable.<br>
-      Accessible color combinations are important for everyone!
+      Try toggling greyscale and check which is accessible.<br>
+      Accessible color combinations are important for everyone and Color should not be the only way to convey information.
     </div>
-    <div class="scoreboard" style="margin: 18px auto 0; width: 220px;">
+    <div class="scoreboard" style="margin: 18px auto 0; width: 220px; display:none;">
       <div id="accessCorrect">Correct: <span>0</span></div>
       <div id="accessIncorrect">Incorrect: <span>0</span></div>
     </div>
+    <div style="margin: 32px auto 0; max-width: 600px;">
+  <h2 style="font-size:1.3rem; margin-bottom:1rem;">Color Blindness Category and how they will perceive colours</h2>
+  <div class="type" style="display:flex;align-items:center;margin-bottom:12px;">
+    <div class="box" style="background-color: #FF0000; width:60px;height:30px;margin-right:10px;border:1px solid #ccc;"></div>
+    <span><span class="label" style="font-weight:bold;">Normal Vision</span>: True red (#FF0000)</span>
+  </div>
+  <div class="type" style="display:flex;align-items:center;margin-bottom:12px;">
+    <div class="box" style="background-color: #FF0000; filter: url(#protanopia); width:60px;height:30px;margin-right:10px;border:1px solid #ccc;"></div>
+    <span><span class="label" style="font-weight:bold;">Protanopia</span>: No red cones</span>
+  </div>
+  <div class="type" style="display:flex;align-items:center;margin-bottom:12px;">
+    <div class="box" style="background-color: #FF0000; filter: url(#protanomaly); width:60px;height:30px;margin-right:10px;border:1px solid #ccc;"></div>
+    <span><span class="label" style="font-weight:bold;">Protanomaly</span>: Weak red perception</span>
+  </div>
+  <div class="type" style="display:flex;align-items:center;margin-bottom:12px;">
+    <div class="box" style="background-color: #00FF00; filter: url(#deuteranopia); width:60px;height:30px;margin-right:10px;border:1px solid #ccc;"></div>
+    <span><span class="label" style="font-weight:bold;">Deuteranopia</span>: No green cones</span>
+  </div>
+  <div class="type" style="display:flex;align-items:center;margin-bottom:12px;">
+    <div class="box" style="background-color: #00FF00; filter: url(#deuteranomaly); width:60px;height:30px;margin-right:10px;border:1px solid #ccc;"></div>
+    <span><span class="label" style="font-weight:bold;">Deuteranomaly</span>: Weak green perception</span>
+  </div>
+  <div class="type" style="display:flex;align-items:center;margin-bottom:12px;">
+    <div class="box" style="background-color: #0000FF; filter: url(#tritanopia); width:60px;height:30px;margin-right:10px;border:1px solid #ccc;"></div>
+    <span><span class="label" style="font-weight:bold;">Tritanopia</span>: No blue cones</span>
+  </div>
+  <div class="type" style="display:flex;align-items:center;margin-bottom:12px;">
+    <div class="box" style="background-color: #0000FF; filter: url(#tritanomaly); width:60px;height:30px;margin-right:10px;border:1px solid #ccc;"></div>
+    <span><span class="label" style="font-weight:bold;">Tritanomaly</span>: Weak blue perception</span>
+  </div>
+  <div class="type" style="display:flex;align-items:center;margin-bottom:12px;">
+    <div class="box" style="background-color: #FF00FF; filter: url(#monochromacy); width:60px;height:30px;margin-right:10px;border:1px solid #ccc;"></div>
+    <span><span class="label" style="font-weight:bold;">Monochromacy</span>: No color, grayscale vision</span>
+  </div>
+  <!-- SVG Filters -->
+  <svg width="0" height="0">
+    <defs>
+      <filter id="protanopia">
+        <feColorMatrix type="matrix" values="0.567,0.433,0,0,0 0.558,0.442,0,0,0 0,0.242,0.758,0,0 0,0,0,1,0"/>
+      </filter>
+      <filter id="protanomaly">
+        <feColorMatrix type="matrix" values="0.817,0.183,0,0,0 0.333,0.667,0,0,0 0,0.125,0.875,0,0 0,0,0,1,0"/>
+      </filter>
+      <filter id="deuteranopia">
+        <feColorMatrix type="matrix" values="0.625,0.375,0,0,0 0.7,0.3,0,0,0 0,0.3,0.7,0,0 0,0,0,1,0"/>
+      </filter>
+      <filter id="deuteranomaly">
+        <feColorMatrix type="matrix" values="0.8,0.2,0,0,0 0.258,0.742,0,0,0 0,0.142,0.858,0,0 0,0,0,1,0"/>
+      </filter>
+      <filter id="tritanopia">
+        <feColorMatrix type="matrix" values="0.95,0.05,0,0,0 0,0.433,0.567,0,0 0,0.475,0.525,0,0 0,0,0,1,0"/>
+      </filter>
+      <filter id="tritanomaly">
+        <feColorMatrix type="matrix" values="0.967,0.033,0,0,0 0,0.733,0.267,0,0 0,0.183,0.817,0,0 0,0,0,1,0"/>
+      </filter>
+      <filter id="monochromacy">
+        <feColorMatrix type="matrix" values="0.299,0.587,0.114,0,0 0.299,0.587,0.114,0,0 0.299,0.587,0.114,0,0 0,0,0,1,0"/>
+      </filter>
+    </defs>
+  </svg>
+</div>
   </div>
 </div>
 
@@ -386,10 +509,82 @@ let colorBalls = [
 ];
 let colorBoards = document.querySelectorAll('.board');
 
-// Drag and Drop functionality
+colorBoards.forEach(board => {
+  board.addEventListener('dragover', (e) => {
+    e.preventDefault();
+  });
+});
+colorBoards.forEach(board => {
+  board.addEventListener('dragover', (e) => {
+    e.preventDefault();
+  });
+  board.addEventListener('drop', (e) => {
+    e.preventDefault();
+    const ballId = e.dataTransfer.getData('ballId');
+    const ballColor = e.dataTransfer.getData('ball');
+    if (!ballId) return;
+    const ballElement = document.getElementById(ballId);
+    if (!ballElement) return;
+    // Check color match
+    if (ballColor === board.dataset.color) {
+      document.querySelector('#correct span').textContent =
+        parseInt(document.querySelector('#correct span').textContent) + 1;
+      showPopup('Correct!', 'green');
+    } else {
+      document.querySelector('#incorrect span').textContent =
+        parseInt(document.querySelector('#incorrect span').textContent) + 1;
+      showPopup('Incorrect!', 'red');
+    }
+    resetBallPosition(ballElement);
+  });
+});
+
+// Helper to reset ball to original position
+function resetBallPosition(ballElement) {
+  ballElement.style.transition = 'transform 0.4s';
+  ballElement.style.transform = ballElement.dataset.origTransform || '';
+  setTimeout(() => {
+    ballElement.style.transition = '';
+  }, 400);
+}
+
+// Helper to check proximity between ball and box
+function isBallNearBox(ballElement, boxElement, threshold = 70) {
+  const ballRect = ballElement.getBoundingClientRect();
+  const boxRect = boxElement.getBoundingClientRect();
+  const ballCenter = {
+    x: ballRect.left + ballRect.width / 2,
+    y: ballRect.top + ballRect.height / 2
+  };
+  const boxCenter = {
+    x: boxRect.left + boxRect.width / 2,
+    y: boxRect.top + boxRect.height / 2
+  };
+  const dx = ballCenter.x - boxCenter.x;
+  const dy = ballCenter.y - boxCenter.y;
+  const distance = Math.sqrt(dx * dx + dy * dy);
+  return distance < threshold;
+}
+
+// Popup for feedback
+function showPopup(msg, color) {
+  const popup = document.getElementById('popup');
+  popup.textContent = msg;
+  popup.style.background = color === 'green' ? 'rgba(0,128,0,0.85)' : 'rgba(128,0,0,0.85)';
+  popup.style.display = 'block';
+  setTimeout(() => { popup.style.display = 'none'; }, 1200);
+}
+
+// Main logic for all balls
 colorBalls.forEach(ball => {
   const ballElement = document.getElementById(ball.id);
   ballElement.style.backgroundColor = ball.color;
+
+  // Store original position
+  const rect = ballElement.getBoundingClientRect();
+  ballElement.dataset.origLeft = rect.left;
+  ballElement.dataset.origTop = rect.top;
+  ballElement.dataset.origTransform = ballElement.style.transform || '';
 
   // Desktop drag-and-drop events
   ballElement.addEventListener('dragstart', (e) => {
@@ -411,117 +606,61 @@ colorBalls.forEach(ball => {
   });
 
   ballElement.addEventListener('dragend', () => {
-    if (ballElement.classList.contains('grey-scale')) {
-      ballElement.style.filter = 'grayscale(100%)';
-    } else {
-      ballElement.style.filter = '';
-    }
+    let matched = false;
+    colorBoards.forEach(board => {
+      if (isBallNearBox(ballElement, board)) {
+        matched = true;
+        if (ball.color === board.dataset.color) {
+          document.querySelector('#correct span').textContent =
+            parseInt(document.querySelector('#correct span').textContent) + 1;
+          showPopup('Correct!', 'green');
+        } else {
+          document.querySelector('#incorrect span').textContent =
+            parseInt(document.querySelector('#incorrect span').textContent) + 1;
+          showPopup('Incorrect!', 'red');
+        }
+      }
+    });
+    resetBallPosition(ballElement);
   });
 
-  // Mobile touch events
+  // Touch events
+  let startX, startY;
   ballElement.addEventListener('touchstart', (e) => {
     e.preventDefault();
     const touch = e.touches[0];
-    ballElement.dataset.touchId = touch.identifier;
-    ballElement.dataset.startX = touch.clientX;
-    ballElement.dataset.startY = touch.clientY;
+    startX = touch.clientX;
+    startY = touch.clientY;
     ballElement.classList.add('dragging');
   });
 
   ballElement.addEventListener('touchmove', (e) => {
     e.preventDefault();
     const touch = e.touches[0];
-    const touchId = ballElement.dataset.touchId;
-    if (touch.identifier == touchId) {
-      const deltaX = touch.clientX - ballElement.dataset.startX;
-      const deltaY = touch.clientY - ballElement.dataset.startY;
-      ballElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-
-      // Highlight board under finger
-      document.querySelectorAll('.board').forEach(board => board.classList.remove('highlight'));
-      const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-      if (dropTarget && dropTarget.classList.contains('board')) {
-        dropTarget.classList.add('highlight');
-      }
-    }
+    const deltaX = touch.clientX - startX;
+    const deltaY = touch.clientY - startY;
+    ballElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
   });
 
   ballElement.addEventListener('touchend', (e) => {
     e.preventDefault();
-    ballElement.style.transform = '';
     ballElement.classList.remove('dragging');
-    document.querySelectorAll('.board').forEach(board => board.classList.remove('highlight'));
-
-    const touchId = ballElement.dataset.touchId;
-    const touch = Array.from(e.changedTouches).find(t => t.identifier == touchId);
-
-    if (touch) {
-      const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-      if (dropTarget && dropTarget.classList.contains('board')) {
-        const color = ballElement.style.backgroundColor;
-        const isGrey = ballElement.classList.contains('grey-scale');
-        if (color === dropTarget.dataset.color) {
-          document.getElementById('correct').textContent = `Correct: ${parseInt(document.getElementById('correct').textContent.split(":")[1]) + 1}`;
-          if (isGrey) {
-            ballElement.classList.add('grey-scale');
-            dropTarget.classList.add('grey-scale');
-            ballElement.style.filter = 'grayscale(100%)';
-          } else {
-            ballElement.classList.remove('grey-scale');
-            dropTarget.classList.remove('grey-scale');
-            ballElement.style.filter = '';
-          }
+    let matched = false;
+    colorBoards.forEach(board => {
+      if (isBallNearBox(ballElement, board)) {
+        matched = true;
+        if (ball.color === board.dataset.color) {
+          document.querySelector('#correct span').textContent =
+            parseInt(document.querySelector('#correct span').textContent) + 1;
+          showPopup('Correct!', 'green');
         } else {
-          document.getElementById('incorrect').textContent = `Incorrect: ${parseInt(document.getElementById('incorrect').textContent.split(":")[1]) + 1}`;
+          document.querySelector('#incorrect span').textContent =
+            parseInt(document.querySelector('#incorrect span').textContent) + 1;
+          showPopup('Incorrect!', 'red');
         }
       }
-    }
-  });
-});
-
-colorBoards.forEach(board => {
-  board.addEventListener('dragover', (e) => {
-    e.preventDefault();
-    board.classList.add('highlight');
-  });
-
-  board.addEventListener('dragleave', (e) => {
-    board.classList.remove('highlight');
-  });
-
-  board.addEventListener('drop', (e) => {
-    e.preventDefault();
-    board.classList.remove('highlight');
-    const color = e.dataTransfer.getData('ball');
-    const isGrey = e.dataTransfer.getData('isGrey') === 'true';
-    const ballId = e.dataTransfer.getData('ballId');
-    const ballElement = document.getElementById(ballId);
-
-    if (color === board.dataset.color) {
-      document.getElementById('correct').textContent = `Correct: ${parseInt(document.getElementById('correct').textContent.split(":")[1]) + 1}`;
-      if (isGrey) {
-        ballElement.classList.add('grey-scale');
-        board.classList.add('grey-scale');
-        ballElement.style.filter = 'grayscale(100%)';
-      } else {
-        ballElement.classList.remove('grey-scale');
-        board.classList.remove('grey-scale');
-        ballElement.style.filter = '';
-      }
-      // Snap ball to center of box for a moment
-      ballElement.style.transition = 'transform 0.3s';
-      const boardRect = board.getBoundingClientRect();
-      const ballRect = ballElement.getBoundingClientRect();
-      const offsetX = boardRect.left + boardRect.width/2 - (ballRect.left + ballRect.width/2);
-      const offsetY = boardRect.top + boardRect.height/2 - (ballRect.top + ballRect.height/2);
-      ballElement.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1.2)`;
-      setTimeout(() => {
-        ballElement.style.transform = '';
-        ballElement.style.transition = '';
-      }, 400);
-    } else {
-      document.getElementById('incorrect').textContent = `Incorrect: ${parseInt(document.getElementById('incorrect').textContent.split(":")[1]) + 1}`;
-    }
+    });
+    resetBallPosition(ballElement);
   });
 });
 
@@ -561,7 +700,7 @@ const accessibilityToggleBtn = document.getElementById('accessibilityToggleBtn')
 const accessInstruction = document.getElementById('accessInstruction');
 const accessCorrect = document.querySelector('#accessCorrect span');
 const accessIncorrect = document.querySelector('#accessIncorrect span');
-const buttonNames = ['GAAD', 'GOOD', 'GOST'];
+const buttonNames = ['GAAD', 'GOOD', 'GOLD'];
 let accessGreyscale = false;
 let accessibleMode = false;
 let currentTarget = '';
@@ -625,6 +764,23 @@ accessibilityToggleBtn.onclick = () => {
     }
   }
 };
+accessibilityToggleBtn.onclick = () => {
+  accessibleMode = !accessibleMode;
+  if (accessibleMode) {
+    setAccessibleContrast();
+    // Show feedback below inputs
+    document.querySelector('.success-feedback').style.display = 'inline-block';
+    document.querySelector('.error-feedback').style.display = 'inline-block';
+  } else {
+    setBadContrast();
+    // Hide feedback below inputs
+    document.querySelector('.success-feedback').style.display = 'none';
+    document.querySelector('.error-feedback').style.display = 'none';
+    if (accessGreyscale) {
+      accessDemo.classList.add('greyscale');
+    }
+  }
+};
 function shuffleAccessButtons() {
   const parent = document.getElementById('accessButtons');
   const btns = Array.from(accessButtons);
@@ -636,9 +792,16 @@ function shuffleAccessButtons() {
   // Remove all and re-append in new order
   btns.forEach(btn => parent.appendChild(btn));
 }
-
+function showPopup(msg, color) {
+  const popup = document.getElementById('popup');
+  popup.textContent = msg;
+  popup.style.background = color === 'green' ? 'rgba(0,128,0,0.85)' : 'rgba(128,0,0,0.85)';
+  popup.style.display = 'block';
+  setTimeout(() => { popup.style.display = 'none'; }, 1200);
+}
 // Initialize with bad contrast
 setBadContrast();
 </script>
+<div id="popup" style="display:none; position:fixed; bottom:40px; left:40px; text-align:left; font-size:2em; z-index:9999; color:#fff; pointer-events:none; min-width:180px; border-radius:10px; padding:10px 24px;"></div>
 </body>
 </html>
