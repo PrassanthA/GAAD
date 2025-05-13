@@ -57,6 +57,13 @@
   <script>
     const scene = document.querySelector('a-scene');
     const colors = ['red', 'blue', 'green', 'yellow', 'purple'];
+    const colorToGray = {
+      red: '#777777',
+      blue: '#999999',
+      green: '#888888',
+      yellow: '#bbbbbb',
+      purple: '#aaaaaa'
+    };
     const balls = [];
     const ballCount = 25;
     const radius = 4;
@@ -78,7 +85,7 @@
         const ball = document.createElement('a-sphere');
         ball.setAttribute('position', `${x} ${verticalHeight} ${z}`);
         ball.setAttribute('radius', '0.25');
-        ball.setAttribute('color', greyscaleOn ? 'gray' : color);
+        ball.setAttribute('color', greyscaleOn ? colorToGray[color] : color);
         ball.setAttribute('class', 'ball');
         ball.dataset.originalColor = color;
 
@@ -147,7 +154,8 @@
     document.getElementById('greyscaleBtn').addEventListener('click', () => {
       greyscaleOn = !greyscaleOn;
       balls.forEach(ball => {
-        ball.setAttribute('color', greyscaleOn ? 'gray' : ball.dataset.originalColor);
+        const color = ball.dataset.originalColor;
+        ball.setAttribute('color', greyscaleOn ? colorToGray[color] : color);
       });
     });
 
