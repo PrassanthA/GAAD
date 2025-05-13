@@ -1,424 +1,157 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Color Ball Game</title>
-<style>
-/* Reset the page and set a background */
-body {
-font-family: 'Arial', sans-serif;
-margin: 0;
-padding: 0;
-background: #f5f5f5;
-display: flex;
-justify-content: center;
-align-items: center;
-height: 100vh;
-flex-direction: column;
-}
-
-h1 {
-font-size: 2.5rem;
-color: #333;
-margin-bottom: 20px;
-text-align: center;
-}
-
-.game-container {
-display: flex;
-flex-direction: column;
-align-items: center;
-width: 80%;
-}
-
-/* Color Ball Grid */
-.color-balls {
-display: flex;
-flex-direction: column;
-margin-bottom: 30px;
-}
-
-.row {
-display: flex;
-justify-content: center;
-flex-wrap: wrap;
-margin-bottom: 15px;
-}
-
-.ball {
-width: 60px;
-height: 60px;
-border-radius: 50%;
-margin: 5px;
-cursor: pointer;
-transition: transform 0.2s ease;
-}
-
-.ball:hover {
-transform: scale(1.1);
-}
-
-/* Color Boxes */
-.color-boards {
-display: flex;
-justify-content: center;
-margin-bottom: 30px;
-width: 70%;
-flex-wrap: wrap;
-}
-
-.board {
-width: 100px;
-height: 100px;
-border: 3px solid #000;
-margin: 10px; /* Reduce the space */
-display: flex;
-justify-content: center;
-align-items: center;
-flex-direction: column;
-text-align: center;
-font-weight: bold;
-color: white;
-font-size: 1rem;
-border-radius: 10px;
-cursor: pointer;
-transition: transform 0.2s ease;
-}
-
-.board:hover {
-transform: scale(1.1);
-}
-
-/* Button Styling */
-button {
-padding: 12px 25px;
-font-size: 1rem;
-margin: 10px;
-background-color: #4CAF50;
-color: white;
-border: none;
-border-radius: 8px;
-cursor: pointer;
-transition: background-color 0.3s;
-}
-
-button:hover {
-background-color: #45a049;
-}
-
-/* Scoreboard styling */
-.scoreboard {
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-items: center;
-width: 200px; /* Adjusted width */
-padding: 20px;
-background-color: #2f4f4f;
-color: white;
-border-radius: 10px;
-font-size: 1.2rem;
-box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-}
-
-.scoreboard div {
-margin-bottom: 10px;
-font-weight: bold;
-}
-
-.scoreboard div span {
-font-size: 1.4rem;
-}
-
-/* Greyscale Styling */
-.grey-scale {
-filter: grayscale(100%);
-}
-
-/* Box content color */
-.board[data-color="red"] {
-background-color: red;
-}
-
-.board[data-color="blue"] {
-background-color: blue;
-}
-
-.board[data-color="green"] {
-background-color: green;
-}
-
-.board[data-color="yellow"] {
-background-color: yellow;
-}
-
-.board[data-color="purple"] {
-background-color: purple;
-}
-
-</style>
+  <meta charset="utf-8">
+  <title>VR Color Ball Game</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="https://aframe.io/releases/1.4.2/aframe.min.js"></script>
+  <style>
+    body { margin: 0; font-family: sans-serif; }
+    .scoreboard, .buttons {
+      position: absolute;
+      top: 10px;
+      left: 10px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 10px;
+      border-radius: 5px;
+      z-index: 1;
+    }
+    .buttons { top: auto; bottom: 10px; }
+    button { margin: 5px; }
+  </style>
 </head>
 <body>
-<h1>Color Ball Game</h1>
+  <div class="scoreboard">
+    <div id="correct">Correct: <span>0</span></div>
+    <div id="incorrect">Incorrect: <span>0</span></div>
+  </div>
+  <div class="buttons">
+    <button id="shuffleBtn">Shuffle</button>
+    <button id="greyscaleBtn">Greyscale</button>
+  </div>
 
-<div class="game-container">
-<!-- Color Balls -->
-<div class="color-balls">
-<div class="row">
-<div class="ball" draggable="true" id="ball1"></div>
-<div class="ball" draggable="true" id="ball2"></div>
-<div class="ball" draggable="true" id="ball3"></div>
-<div class="ball" draggable="true" id="ball4"></div>
-<div class="ball" draggable="true" id="ball5"></div>
-<div class="ball" draggable="true" id="ball6"></div>
-<div class="ball" draggable="true" id="ball7"></div>
-<div class="ball" draggable="true" id="ball8"></div>
-<div class="ball" draggable="true" id="ball9"></div>
-<div class="ball" draggable="true" id="ball10"></div>
-<div class="ball" draggable="true" id="ball11"></div>
-<div class="ball" draggable="true" id="ball12"></div>
-<div class="ball" draggable="true" id="ball13"></div>
-<div class="ball" draggable="true" id="ball14"></div>
-<div class="ball" draggable="true" id="ball15"></div>
-</div>
-<div class="row">
-<div class="ball" draggable="true" id="ball16"></div>
-<div class="ball" draggable="true" id="ball17"></div>
-<div class="ball" draggable="true" id="ball18"></div>
-<div class="ball" draggable="true" id="ball19"></div>
-<div class="ball" draggable="true" id="ball20"></div>
-<div class="ball" draggable="true" id="ball21"></div>
-<div class="ball" draggable="true" id="ball22"></div>
-<div class="ball" draggable="true" id="ball23"></div>
-<div class="ball" draggable="true" id="ball24"></div>
-<div class="ball" draggable="true" id="ball25"></div>
-<div class="ball" draggable="true" id="ball26"></div>
-<div class="ball" draggable="true" id="ball27"></div>
-<div class="ball" draggable="true" id="ball28"></div>
-<div class="ball" draggable="true" id="ball29"></div>
-<div class="ball" draggable="true" id="ball30"></div>
-</div>
-<div class="row">
-<div class="ball" draggable="true" id="ball31"></div>
-<div class="ball" draggable="true" id="ball32"></div>
-<div class="ball" draggable="true" id="ball33"></div>
-<div class="ball" draggable="true" id="ball34"></div>
-<div class="ball" draggable="true" id="ball35"></div>
-<div class="ball" draggable="true" id="ball36"></div>
-<div class="ball" draggable="true" id="ball37"></div>
-<div class="ball" draggable="true" id="ball38"></div>
-<div class="ball" draggable="true" id="ball39"></div>
-<div class="ball" draggable="true" id="ball40"></div>
-<div class="ball" draggable="true" id="ball41"></div>
-<div class="ball" draggable="true" id="ball42"></div>
-<div class="ball" draggable="true" id="ball43"></div>
-<div class="ball" draggable="true" id="ball44"></div>
-<div class="ball" draggable="true" id="ball45"></div>
-</div>
-</div>
+  <a-scene background="color: #e0e7ff">
+    <!-- Camera -->
+    <a-entity id="cameraRig" position="0 1.6 0">
+      <a-camera></a-camera>
+    </a-entity>
 
-<!-- Color Boxes and Scoreboard Below -->
-<div class="color-boards">
-<div class="board" id="board1" data-color="red">
-<span>Red</span>
-</div>
-<div class="board" id="board2" data-color="blue">
-<span>Blue</span>
-</div>
-<div class="board" id="board3" data-color="green">
-<span>Green</span>
-</div>
-<div class="board" id="board4" data-color="yellow">
-<span>Yellow</span>
-</div>
-<div class="board" id="board5" data-color="purple">
-<span>Purple</span>
-</div>
-</div>
+    <!-- Lighting -->
+    <a-light type="ambient" color="#ffffff" intensity="0.5"></a-light>
+    <a-light type="directional" position="-1 2 1" intensity="0.8"></a-light>
 
-<!-- Scoreboard Below -->
-<div class="scoreboard">
-<div id="correct">Correct: <span>0</span></div>
-<div id="incorrect">Incorrect: <span>0</span></div>
-</div>
+    <!-- Sky -->
+    <a-sky color="#cddafd"></a-sky>
 
-<!-- Buttons -->
-<button id="shuffleBtn">Shuffle</button>
-<button id="greyscaleBtn">Greyscale</button>
-</div>
+    <!-- Title -->
+    <a-entity text="value: Color Ball Game; align: center; width: 6" position="0 3 -4"></a-entity>
 
-<script>
-// Define the balls and boards
-let colorBalls = [
-{ id: 'ball1', color: 'red' }, { id: 'ball2', color: 'blue' }, { id: 'ball3', color: 'green' },
-{ id: 'ball4', color: 'yellow' }, { id: 'ball5', color: 'purple' }, { id: 'ball6', color: 'red' },
-{ id: 'ball7', color: 'blue' }, { id: 'ball8', color: 'green' }, { id: 'ball9', color: 'yellow' },
-{ id: 'ball10', color: 'purple' }, { id: 'ball11', color: 'red' }, { id: 'ball12', color: 'blue' },
-{ id: 'ball13', color: 'green' }, { id: 'ball14', color: 'yellow' }, { id: 'ball15', color: 'purple' },
-{ id: 'ball16', color: 'red' }, { id: 'ball17', color: 'blue' }, { id: 'ball18', color: 'green' },
-{ id: 'ball19', color: 'yellow' }, { id: 'ball20', color: 'purple' }, { id: 'ball21', color: 'red' },
-{ id: 'ball22', color: 'blue' }, { id: 'ball23', color: 'green' }, { id: 'ball24', color: 'yellow' },
-{ id: 'ball25', color: 'purple' }, { id: 'ball26', color: 'red' }, { id: 'ball27', color: 'blue' },
-{ id: 'ball28', color: 'green' }, { id: 'ball29', color: 'yellow' }, { id: 'ball30', color: 'purple' },
-{ id: 'ball31', color: 'red' }, { id: 'ball32', color: 'blue' }, { id: 'ball33', color: 'green' },
-{ id: 'ball34', color: 'yellow' }, { id: 'ball35', color: 'purple' }, { id: 'ball36', color: 'red' },
-{ id: 'ball37', color: 'blue' }, { id: 'ball38', color: 'green' }, { id: 'ball39', color: 'yellow' },
-{ id: 'ball40', color: 'purple' }, { id: 'ball41', color: 'red' }, { id: 'ball42', color: 'blue' },
-{ id: 'ball43', color: 'green' }, { id: 'ball44', color: 'yellow' }, { id: 'ball45', color: 'purple' },
-];
+    <!-- Drop Targets -->
+    <a-box class="drop-target" data-color="red" color="red" position="-2 1 -3" width="1" height="1" depth="0.2"></a-box>
+    <a-box class="drop-target" data-color="blue" color="blue" position="-1 1 -3" width="1" height="1" depth="0.2"></a-box>
+    <a-box class="drop-target" data-color="green" color="green" position="0 1 -3" width="1" height="1" depth="0.2"></a-box>
+    <a-box class="drop-target" data-color="yellow" color="yellow" position="1 1 -3" width="1" height="1" depth="0.2"></a-box>
+    <a-box class="drop-target" data-color="purple" color="purple" position="2 1 -3" width="1" height="1" depth="0.2"></a-box>
+  </a-scene>
 
-let colorBoards = document.querySelectorAll('.board');
+  <script>
+    const scene = document.querySelector('a-scene');
+    const colors = ['red', 'blue', 'green', 'yellow', 'purple'];
+    const balls = [];
+    const ballCount = 25;
+    const radius = 4;
+    const verticalHeight = 1.4;
+    let greyscaleOn = false;
+    let correct = 0;
+    let incorrect = 0;
 
-// Drag and Drop functionality
-colorBalls.forEach(ball => {
-const ballElement = document.getElementById(ball.id);
-ballElement.style.backgroundColor = ball.color;
+    function createBalls() {
+      balls.forEach(ball => ball.remove());
+      balls.length = 0;
 
-// Desktop drag-and-drop events
-ballElement.addEventListener('dragstart', (e) => {
-e.dataTransfer.setData('ball', ball.color);
-e.dataTransfer.setData('isGrey', ballElement.classList.contains('grey-scale'));
-e.dataTransfer.setData('ballId', ball.id);
+      for (let i = 0; i < ballCount; i++) {
+        const angle = (i / (ballCount - 1)) * Math.PI;
+        const x = radius * Math.cos(angle - Math.PI / 2);
+        const z = -radius * Math.sin(angle - Math.PI / 2);
+        const color = colors[i % colors.length];
 
-// Create a custom drag image
-const dragImage = ballElement.cloneNode(true);
-dragImage.style.position = 'absolute';
-dragImage.style.top = '-9999px'; // Move it off-screen
-dragImage.style.left = '-9999px';
+        const ball = document.createElement('a-sphere');
+        ball.setAttribute('position', `${x} ${verticalHeight} ${z}`);
+        ball.setAttribute('radius', '0.25');
+        ball.setAttribute('color', greyscaleOn ? 'gray' : color);
+        ball.setAttribute('class', 'ball');
+        ball.dataset.originalColor = color;
 
-// Apply greyscale filter to the drag image if the ball is greyscaled
-if (ballElement.classList.contains('grey-scale')) {
-dragImage.style.filter = 'grayscale(100%)';
-}
+        ball.setAttribute('animation__hover', `
+          property: scale;
+          dir: alternate;
+          dur: 1000;
+          loop: true;
+          to: 1.2 1.2 1.2
+        `);
 
-document.body.appendChild(dragImage);
-e.dataTransfer.setDragImage(dragImage, 30, 30); // Center the drag image
-setTimeout(() => document.body.removeChild(dragImage), 0); // Remove after setting
-});
+        ball.addEventListener('click', () => {
+          moveBall(ball);
+        });
 
-ballElement.addEventListener('dragend', () => {
-if (ballElement.classList.contains('grey-scale')) {
-ballElement.style.filter = 'grayscale(100%)';
-} else {
-ballElement.style.filter = '';
-}
-});
+        balls.push(ball);
+        scene.appendChild(ball);
+      }
+    }
 
-// Mobile touch events
-ballElement.addEventListener('touchstart', (e) => {
-e.preventDefault();
-const touch = e.touches[0];
-ballElement.dataset.touchId = touch.identifier;
-ballElement.dataset.startX = touch.clientX;
-ballElement.dataset.startY = touch.clientY;
-ballElement.classList.add('dragging');
-});
+    function moveBall(ball) {
+      const fromPos = ball.getAttribute('position');
+      const toZ = -3;
+      const toY = 1.2;
 
-ballElement.addEventListener('touchmove', (e) => {
-e.preventDefault();
-const touch = e.touches[0];
-const touchId = ballElement.dataset.touchId;
+      // Drop to nearest target
+      const closest = document.querySelectorAll('.drop-target');
+      let closestTarget = null;
+      let minDistance = Infinity;
 
-if (touch.identifier == touchId) {
-const deltaX = touch.clientX - ballElement.dataset.startX;
-const deltaY = touch.clientY - ballElement.dataset.startY;
+      closest.forEach(target => {
+        const pos = target.getAttribute('position');
+        const dx = pos.x - fromPos.x;
+        const dz = pos.z - fromPos.z;
+        const dist = Math.sqrt(dx*dx + dz*dz);
+        if (dist < minDistance) {
+          minDistance = dist;
+          closestTarget = target;
+        }
+      });
 
-ballElement.style.transform = `translate(${deltaX}px, ${deltaY}px)`;
-}
-});
+      if (closestTarget && minDistance < 1.5) {
+        ball.setAttribute('position', {
+          x: closestTarget.getAttribute('position').x,
+          y: toY,
+          z: toZ
+        });
 
-ballElement.addEventListener('touchend', (e) => {
-e.preventDefault();
-ballElement.style.transform = '';
-ballElement.classList.remove('dragging');
+        const expected = closestTarget.getAttribute('data-color');
+        const actual = ball.dataset.originalColor;
 
-const touchId = ballElement.dataset.touchId;
-const touch = Array.from(e.changedTouches).find(t => t.identifier == touchId);
+        if (expected === actual) {
+          correct++;
+        } else {
+          incorrect++;
+        }
+        document.querySelector('#correct span').textContent = correct;
+        document.querySelector('#incorrect span').textContent = incorrect;
+      }
+    }
 
-if (touch) {
-const dropTarget = document.elementFromPoint(touch.clientX, touch.clientY);
-if (dropTarget && dropTarget.classList.contains('board')) {
-const color = ballElement.style.backgroundColor;
-const isGrey = ballElement.classList.contains('grey-scale');
+    document.getElementById('shuffleBtn').addEventListener('click', () => {
+      createBalls();
+    });
 
-if (color === dropTarget.dataset.color) {
-document.getElementById('correct').textContent = `Correct: ${parseInt(document.getElementById('correct').textContent.split(":")[1]) + 1}`;
-if (isGrey) {
-ballElement.classList.add('grey-scale');
-dropTarget.classList.add('grey-scale');
-ballElement.style.filter = 'grayscale(100%)';
-} else {
-ballElement.classList.remove('grey-scale');
-dropTarget.classList.remove('grey-scale');
-ballElement.style.filter = '';
-}
-} else {
-document.getElementById('incorrect').textContent = `Incorrect: ${parseInt(document.getElementById('incorrect').textContent.split(":")[1]) + 1}`;
-}
-}
-}
-});
-});
+    document.getElementById('greyscaleBtn').addEventListener('click', () => {
+      greyscaleOn = !greyscaleOn;
+      balls.forEach(ball => {
+        ball.setAttribute('color', greyscaleOn ? 'gray' : ball.dataset.originalColor);
+      });
+    });
 
-colorBoards.forEach(board => {
-board.addEventListener('dragover', (e) => {
-e.preventDefault();
-});
-
-board.addEventListener('drop', (e) => {
-e.preventDefault();
-const color = e.dataTransfer.getData('ball');
-const isGrey = e.dataTransfer.getData('isGrey') === 'true';
-const ballId = e.dataTransfer.getData('ballId'); // Retrieve the ball ID
-const ballElement = document.getElementById(ballId); // Get the ball element
-
-if (color === board.dataset.color) {
-// Correct match
-document.getElementById('correct').textContent = `Correct: ${parseInt(document.getElementById('correct').textContent.split(":")[1]) + 1}`;
-if (isGrey) {
-ballElement.classList.add('grey-scale'); // Ensure the ball remains grey
-board.classList.add('grey-scale'); // Apply grey-scale to the board
-ballElement.style.filter = 'grayscale(100%)'; // Ensure greyscale filter is applied
-} else {
-ballElement.classList.remove('grey-scale');
-board.classList.remove('grey-scale');
-ballElement.style.filter = ''; // Remove the filter
-}
-} else {
-// Incorrect match
-document.getElementById('incorrect').textContent = `Incorrect: ${parseInt(document.getElementById('incorrect').textContent.split(":")[1]) + 1}`;
-}
-});
-});
-
-// Shuffle Button
-document.getElementById('shuffleBtn').addEventListener('click', () => {
-colorBalls.forEach(ball => {
-const ballElement = document.getElementById(ball.id);
-ballElement.style.order = Math.floor(Math.random() * 45);
-});
-});
-
-// Greyscale button functionality
-document.getElementById('greyscaleBtn').addEventListener('click', () => {
-document.querySelectorAll('.ball').forEach(ball => {
-ball.classList.toggle('grey-scale');
-if (ball.classList.contains('grey-scale')) {
-ball.style.filter = 'grayscale(100%)';
-} else {
-ball.style.filter = ''; // Remove the filter if not greyscaled
-}
-});
-document.querySelectorAll('.board').forEach(board => {
-board.classList.toggle('grey-scale');
-if (board.classList.contains('grey-scale')) {
-board.style.filter = 'grayscale(100%)';
-} else {
-board.style.filter = ''; // Remove the filter if not greyscaled
-}
-});
-});
-</script>
+    createBalls();
+  </script>
 </body>
 </html>
