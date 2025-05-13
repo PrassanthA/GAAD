@@ -16,16 +16,26 @@ body {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 18px 32px 0 32px;
+  padding: 10px 16px 0 8px;
   width: 100%;
   box-sizing: border-box;
+  height: 130px; /* Increase header height to fit larger logos */
+  overflow: hidden;
 }
 .logo {
-  width: 56px;
-  height: 56px;
+  height: 160px;   /* Increase logo size */
+  width: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+.logo img {
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+  display: block;
 }
 .menu-bar {
   text-align: center;
@@ -211,6 +221,7 @@ button:hover {
 .accessibility-demo.accessible .gaad-btn { background: #fff; color: #222; border: 2px solid #222; }
 .accessibility-demo.accessible .good-btn { background: #1976D2; color: #fff; }
 .accessibility-demo.accessible .gost-btn { background: #388E3C; color: #fff; }
+
 </style>
 </head>
 <body>
@@ -218,11 +229,11 @@ button:hover {
 <div class="header-bar">
   <div class="logo" id="logo-left">
     
-    <img src="vm_logo.png" alt="Virgin Money Logo" width="48" height="48" style="object-fit:contain;">
+    <img src="vm_logo.png" alt="Virgin Money Logo">
 </div>
 <!-- Right logo -->
 <div class="logo" id="logo-right">
-  <img src="cog_logo.png" alt="Cognizant Logo" width="48" height="48" style="object-fit:contain;">
+  <img src="cog_logo.png" alt="Cognizant Logo">
 </div>
 </div>
 
@@ -317,11 +328,11 @@ button:hover {
   <div class="accessibility-demo" style="margin-top:40px; text-align:center;">
     <h2>Accessibility Color Demo</h2>
     <div id="accessInstruction" style="font-size:1.2rem; margin-bottom:12px; font-weight:bold;"></div>
-    <div id="accessButtons" style="display:flex; gap:20px; justify-content:center; margin-bottom:16px;">
-      <button class="contrast-btn gaad-btn" style="background:#FFD600; color:#FFEB3B;">GAAD</button>
-      <button class="contrast-btn good-btn" style="background:#00BCD4; color:#009688;">GOOD</button>
-      <button class="contrast-btn gost-btn" style="background:#E91E63; color:#C2185B;">GOST</button>
-    </div>
+   <div id="accessButtons" style="display:flex; gap:20px; justify-content:center; margin-bottom:16px;">
+  <button class="contrast-btn gaad-btn">GAAD</button>
+  <button class="contrast-btn good-btn">GOOD</button>
+  <button class="contrast-btn gost-btn">GOST</button>
+</div>
     <button id="accessGreyscaleBtn" style="margin:0 8px;">Toggle Greyscale</button>
     <button id="accessibilityToggleBtn" style="margin:0 8px;">Show Accessible Colors</button>
     <div style="font-size:0.95rem; color:#444; margin-top:10px;">
@@ -561,29 +572,73 @@ function setRandomInstruction() {
 }
 if (accessInstruction) setRandomInstruction();
 
+function setBadContrast() {
+  // All buttons: extremely poor contrast, hard to read in greyscale
+  accessButtons[0].style.background = "#FFFF99"; // GAAD: yellow
+  accessButtons[0].style.color = "#FFFACD";      // light yellow text
+
+  accessButtons[1].style.background = "#FFD6E0"; // GOOD: light pink
+  accessButtons[1].style.color = "#FFE0EF";      // almost same as background
+
+  accessButtons[2].style.background = "#E0E0E0"; // GOST: light grey
+  accessButtons[2].style.color = "#E8E8E8";      // just a bit lighter than background
+}
+
+function setAccessibleContrast() {
+  // All buttons: accessible contrast, readable even in greyscale
+  accessButtons[0].style.background = "#222";
+  accessButtons[0].style.color = "#FFF";
+  accessButtons[1].style.background = "#1976D2";
+  accessButtons[1].style.color = "#FFF";
+  accessButtons[2].style.background = "#388E3C";
+  accessButtons[2].style.color = "#FFF";
+}
+
 accessButtons.forEach(btn => {
   btn.onclick = () => {
     if (btn.textContent === currentTarget) {
       accessCorrect.textContent = parseInt(accessCorrect.textContent) + 1;
-      setRandomInstruction();
     } else {
       accessIncorrect.textContent = parseInt(accessIncorrect.textContent) + 1;
     }
+    shuffleAccessButtons();
+    setRandomInstruction();
   };
 });
 
-if (accessGreyscaleBtn) {
-  accessGreyscaleBtn.onclick = () => {
-    accessGreyscale = !accessGreyscale;
-    accessDemo.classList.toggle('greyscale', accessGreyscale);
-  };
+accessGreyscaleBtn.onclick = () => {
+  accessGreyscale = !accessGreyscale;
+  accessDemo.classList.toggle('greyscale', accessGreyscale);
+};
+
+accessibilityToggleBtn.onclick = () => {
+  accessibleMode = !accessibleMode;
+  if (accessibleMode) {
+    setAccessibleContrast();
+    // Allow greyscale toggle in accessible mode
+    // (do not disable the button)
+  } else {
+    setBadContrast();
+    // If greyscale was on before, re-apply it
+    if (accessGreyscale) {
+      accessDemo.classList.add('greyscale');
+    }
+  }
+};
+function shuffleAccessButtons() {
+  const parent = document.getElementById('accessButtons');
+  const btns = Array.from(accessButtons);
+  // Shuffle array
+  for (let i = btns.length - 1; i > 0; i--) {
+    const j = Math.floor(Math.random() * (i + 1));
+    [btns[i], btns[j]] = [btns[j], btns[i]];
+  }
+  // Remove all and re-append in new order
+  btns.forEach(btn => parent.appendChild(btn));
 }
-if (accessibilityToggleBtn) {
-  accessibilityToggleBtn.onclick = () => {
-    accessibleMode = !accessibleMode;
-    accessDemo.classList.toggle('accessible', accessibleMode);
-  };
-}
+
+// Initialize with bad contrast
+setBadContrast();
 </script>
 </body>
 </html>
