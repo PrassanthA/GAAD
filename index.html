@@ -180,6 +180,13 @@ background-color: purple;
   /* Keep the 3D effect even in greyscale */
   filter: grayscale(100%);
 }
+.board.highlight {
+  box-shadow: 0 0 24px 8px #fff8, 0 0 0 4px #2224;
+  transform: scale(1.08);
+  border-color: #fff;
+  transition: box-shadow 0.2s, border-color 0.2s, transform 0.2s;
+}
+
 </style>
 </head>
 <body>
@@ -383,36 +390,50 @@ document.getElementById('incorrect').textContent = `Incorrect: ${parseInt(docume
 }
 });
 });
-
 colorBoards.forEach(board => {
-board.addEventListener('dragover', (e) => {
-e.preventDefault();
-});
+  board.addEventListener('dragover', (e) => {
+    e.preventDefault();
+    board.classList.add('highlight');
+  });
 
-board.addEventListener('drop', (e) => {
-e.preventDefault();
-const color = e.dataTransfer.getData('ball');
-const isGrey = e.dataTransfer.getData('isGrey') === 'true';
-const ballId = e.dataTransfer.getData('ballId'); // Retrieve the ball ID
-const ballElement = document.getElementById(ballId); // Get the ball element
+  board.addEventListener('dragleave', (e) => {
+    board.classList.remove('highlight');
+  });
 
-if (color === board.dataset.color) {
-// Correct match
-document.getElementById('correct').textContent = `Correct: ${parseInt(document.getElementById('correct').textContent.split(":")[1]) + 1}`;
-if (isGrey) {
-ballElement.classList.add('grey-scale'); // Ensure the ball remains grey
-board.classList.add('grey-scale'); // Apply grey-scale to the board
-ballElement.style.filter = 'grayscale(100%)'; // Ensure greyscale filter is applied
-} else {
-ballElement.classList.remove('grey-scale');
-board.classList.remove('grey-scale');
-ballElement.style.filter = ''; // Remove the filter
-}
-} else {
-// Incorrect match
-document.getElementById('incorrect').textContent = `Incorrect: ${parseInt(document.getElementById('incorrect').textContent.split(":")[1]) + 1}`;
-}
-});
+  board.addEventListener('drop', (e) => {
+    e.preventDefault();
+    board.classList.remove('highlight');
+    const color = e.dataTransfer.getData('ball');
+    const isGrey = e.dataTransfer.getData('isGrey') === 'true';
+    const ballId = e.dataTransfer.getData('ballId');
+    const ballElement = document.getElementById(ballId);
+
+    if (color === board.dataset.color) {
+      document.getElementById('correct').textContent = `Correct: ${parseInt(document.getElementById('correct').textContent.split(":")[1]) + 1}`;
+      if (isGrey) {
+        ballElement.classList.add('grey-scale');
+        board.classList.add('grey-scale');
+        ballElement.style.filter = 'grayscale(100%)';
+      } else {
+        ballElement.classList.remove('grey-scale');
+        board.classList.remove('grey-scale');
+        ballElement.style.filter = '';
+      }
+      // Optional: Snap ball to center of box for a moment
+      ballElement.style.transition = 'transform 0.3s';
+      const boardRect = board.getBoundingClientRect();
+      const ballRect = ballElement.getBoundingClientRect();
+      const offsetX = boardRect.left + boardRect.width/2 - (ballRect.left + ballRect.width/2);
+      const offsetY = boardRect.top + boardRect.height/2 - (ballRect.top + ballRect.height/2);
+      ballElement.style.transform = `translate(${offsetX}px, ${offsetY}px) scale(1.2)`;
+      setTimeout(() => {
+        ballElement.style.transform = '';
+        ballElement.style.transition = '';
+      }, 400);
+    } else {
+      document.getElementById('incorrect').textContent = `Incorrect: ${parseInt(document.getElementById('incorrect').textContent.split(":")[1]) + 1}`;
+    }
+  });
 });
 
 // Shuffle Button
