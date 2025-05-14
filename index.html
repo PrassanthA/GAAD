@@ -12,6 +12,7 @@ body {
   background: #f5f5f5;
   min-height: 100vh;
 }
+/* Desktop */
 .header-bar {
   display: flex;
   align-items: center;
@@ -19,23 +20,47 @@ body {
   padding: 10px 16px 0 8px;
   width: 100%;
   box-sizing: border-box;
-  height: 130px; /* Increase header height to fit larger logos */
-  overflow: hidden;
+  height: 130px;
+  /* Remove overflow: hidden; */
 }
+
 .logo {
-  height: 160px;   /* Increase logo size */
-  width: 160px;
+  height: 120px;   /* Slightly smaller for better fit */
+  width: 120px;
+  min-width: 60px;
+  min-height: 60px;
+  max-width: 160px;
+  max-height: 160px;
   display: flex;
   align-items: center;
   justify-content: center;
+  flex-shrink: 0;
 }
+
 .logo img {
-  height: 100%;
   width: 100%;
-  max-width: 100%;
-  max-height: 100%;
+  height: 100%;
   object-fit: contain;
   display: block;
+}
+
+/* Mobile */
+@media (max-width: 900px) {
+  .header-bar {
+    height: 80px;
+    padding: 0 8px;
+    width: 100%;
+    box-sizing: border-box;
+    overflow: visible;
+  }
+  .logo {
+    width: 60px;
+    height: 60px;
+    min-width: 50px;
+    min-height: 50px;
+    max-width: 80px;
+    max-height: 80px;
+  }
 }
 .menu-bar {
   text-align: center;
@@ -44,10 +69,22 @@ body {
   border-radius: 16px;
   box-shadow: 0 4px 24px #0001;
   padding: 18px 0 10px 0;
-  max-width: 540px;
+  max-width: 700px; /* Increased for desktop */
   display: flex;
   justify-content: center;
   gap: 18px;
+  overflow: visible;
+}
+
+@media (max-width: 900px) {
+  .menu-bar {
+    max-width: 100vw;
+    width: 100vw;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 0 8px 0;
+    border-radius: 0;
+  }
 }
 .menu-bar button {
   font-size: 1.15rem;
@@ -268,6 +305,85 @@ button:hover {
 }
 .accessibility-demo.greyscale .highlight-input {
   filter: grayscale(100%);
+}
+/* Responsive adjustments */
+@media (max-width: 900px) {
+  .intro, .game-container, .color-boards {
+    max-width: 98vw;
+    width: 98vw;
+    padding-left: 0;
+    padding-right: 0;
+  }
+  .menu-bar {
+    max-width: 98vw;
+    flex-direction: column;
+    gap: 10px;
+    padding: 12px 0 8px 0;
+  }
+  .scoreboard {
+    width: 98vw;
+    min-width: 0;
+    padding: 10px;
+  }
+  .color-boards {
+    flex-wrap: wrap;
+    width: 100%;
+    margin-bottom: 18px;
+  }
+  .board {
+    width: 80px;
+    height: 80px;
+    font-size: 0.95rem;
+    margin: 6px;
+  }
+  .ball {
+    width: 40px;
+    height: 40px;
+    margin: 3px;
+  }
+  .row {
+    flex-wrap: wrap;
+    margin-bottom: 8px;
+  }
+  .header-bar, .logo {
+    height: 80px;
+    width: 80px;
+  }
+  h1 {
+    font-size: 1.5rem;
+  }
+  .intro {
+    font-size: 1rem;
+    padding: 12px 6px;
+  }
+}
+#rotateNotice {
+  display: none;
+  position: fixed;
+  z-index: 99999;
+  top: 0; left: 0; width: 100vw; height: 100vh;
+  background: rgba(0,0,0,0.85);
+  color: #fff;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  font-size: 1.1rem;
+  padding: 0;
+  box-sizing: border-box;
+}
+#rotateNotice .rotate-content {
+  max-width: 90vw;
+  box-sizing: border-box;
+  padding: 32px 12px;
+  background: none;
+  border-radius: 16px;
+  overflow-wrap: break-word;
+  word-break: break-word;
+}
+@media (min-width: 700px) {
+  #rotateNotice {
+    display: none !important;
+  }
 }
 </style>
 </head>
@@ -799,9 +915,28 @@ function showPopup(msg, color) {
   popup.style.display = 'block';
   setTimeout(() => { popup.style.display = 'none'; }, 1200);
 }
+
+function checkOrientation() {
+  const notice = document.getElementById('rotateNotice');
+  if (window.innerHeight > window.innerWidth && window.innerWidth < 700) {
+    notice.style.display = 'flex';
+  } else {
+    notice.style.display = 'none';
+  }
+}
+window.addEventListener('resize', checkOrientation);
+window.addEventListener('orientationchange', checkOrientation);
+window.addEventListener('DOMContentLoaded', checkOrientation);
 // Initialize with bad contrast
 setBadContrast();
 </script>
 <div id="popup" style="display:none; position:fixed; bottom:40px; left:40px; text-align:left; font-size:2em; z-index:9999; color:#fff; pointer-events:none; min-width:180px; border-radius:10px; padding:10px 24px;"></div>
+  <div id="rotateNotice">
+  <div class="rotate-content">
+    <span style="font-size:2.5em; display:block; margin-bottom:18px;">🔄</span>
+    For the best experience,<br>
+    please rotate your device to <b>landscape</b> mode.
+  </div>
+</div>
 </body>
 </html>
