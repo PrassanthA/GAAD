@@ -427,19 +427,36 @@ button:hover {
         <div class="ball" draggable="true" id="ball8"></div>
         <div class="ball" draggable="true" id="ball9"></div>
         <div class="ball" draggable="true" id="ball10"></div>
+        <!-- <div class="ball" draggable="true" id="ball11"></div>
+        <div class="ball" draggable="true" id="ball12"></div>
+        <div class="ball" draggable="true" id="ball13"></div>
+        <div class="ball" draggable="true" id="ball14"></div>
+        <div class="ball" draggable="true" id="ball15"></div> -->
+      </div>
+      <div class="row">
         <div class="ball" draggable="true" id="ball11"></div>
         <div class="ball" draggable="true" id="ball12"></div>
         <div class="ball" draggable="true" id="ball13"></div>
         <div class="ball" draggable="true" id="ball14"></div>
         <div class="ball" draggable="true" id="ball15"></div>
-      </div>
-      <div class="row">
         <div class="ball" draggable="true" id="ball16"></div>
         <div class="ball" draggable="true" id="ball17"></div>
         <div class="ball" draggable="true" id="ball18"></div>
         <div class="ball" draggable="true" id="ball19"></div>
         <div class="ball" draggable="true" id="ball20"></div>
-        <div class="ball" draggable="true" id="ball21"></div>
+        <!-- <div class="ball" draggable="true" id="ball21"></div>
+        <div class="ball" draggable="true" id="ball22"></div>
+        <div class="ball" draggable="true" id="ball23"></div>
+        <div class="ball" draggable="true" id="ball24"></div>
+        <div class="ball" draggable="true" id="ball25"></div>
+        <div class="ball" draggable="true" id="ball26"></div>
+        <div class="ball" draggable="true" id="ball27"></div>
+        <div class="ball" draggable="true" id="ball28"></div>
+        <div class="ball" draggable="true" id="ball29"></div>
+        <div class="ball" draggable="true" id="ball30"></div> -->
+      </div>
+      <div hidden class="row">
+         <div class="ball" draggable="true" id="ball21"></div>
         <div class="ball" draggable="true" id="ball22"></div>
         <div class="ball" draggable="true" id="ball23"></div>
         <div class="ball" draggable="true" id="ball24"></div>
@@ -449,9 +466,7 @@ button:hover {
         <div class="ball" draggable="true" id="ball28"></div>
         <div class="ball" draggable="true" id="ball29"></div>
         <div class="ball" draggable="true" id="ball30"></div>
-      </div>
-      <div class="row">
-        <div class="ball" draggable="true" id="ball31"></div>
+        <!-- <div class="ball" draggable="true" id="ball31"></div>
         <div class="ball" draggable="true" id="ball32"></div>
         <div class="ball" draggable="true" id="ball33"></div>
         <div class="ball" draggable="true" id="ball34"></div>
@@ -465,7 +480,7 @@ button:hover {
         <div class="ball" draggable="true" id="ball42"></div>
         <div class="ball" draggable="true" id="ball43"></div>
         <div class="ball" draggable="true" id="ball44"></div>
-        <div class="ball" draggable="true" id="ball45"></div>
+        <div class="ball" draggable="true" id="ball45"></div> -->
       </div>
     </div>
     <!-- Color Boxes and Scoreboard Below -->
@@ -616,11 +631,11 @@ let colorBalls = [
   { id: 'ball22', color: 'blue' }, { id: 'ball23', color: 'green' }, { id: 'ball24', color: 'yellow' },
   { id: 'ball25', color: 'purple' }, { id: 'ball26', color: 'red' }, { id: 'ball27', color: 'blue' },
   { id: 'ball28', color: 'green' }, { id: 'ball29', color: 'yellow' }, { id: 'ball30', color: 'purple' },
-  { id: 'ball31', color: 'red' }, { id: 'ball32', color: 'blue' }, { id: 'ball33', color: 'green' },
-  { id: 'ball34', color: 'yellow' }, { id: 'ball35', color: 'purple' }, { id: 'ball36', color: 'red' },
-  { id: 'ball37', color: 'blue' }, { id: 'ball38', color: 'green' }, { id: 'ball39', color: 'yellow' },
-  { id: 'ball40', color: 'purple' }, { id: 'ball41', color: 'red' }, { id: 'ball42', color: 'blue' },
-  { id: 'ball43', color: 'green' }, { id: 'ball44', color: 'yellow' }, { id: 'ball45', color: 'purple' },
+  // { id: 'ball31', color: 'red' }, { id: 'ball32', color: 'blue' }, { id: 'ball33', color: 'green' },
+  // { id: 'ball34', color: 'yellow' }, { id: 'ball35', color: 'purple' }, { id: 'ball36', color: 'red' },
+  // { id: 'ball37', color: 'blue' }, { id: 'ball38', color: 'green' }, { id: 'ball39', color: 'yellow' },
+  // { id: 'ball40', color: 'purple' }, { id: 'ball41', color: 'red' }, { id: 'ball42', color: 'blue' },
+  // { id: 'ball43', color: 'green' }, { id: 'ball44', color: 'yellow' }, { id: 'ball45', color: 'purple' },
 ];
 let colorBoards = document.querySelectorAll('.board');
 
@@ -644,13 +659,16 @@ colorBoards.forEach(board => {
     if (ballColor === board.dataset.color) {
       document.querySelector('#correct span').textContent =
         parseInt(document.querySelector('#correct span').textContent) + 1;
-      showPopup('Correct!', 'green');
+      ballElement.style.display = 'none';
+        showPopup('Correct!', 'green');
     } else {
       document.querySelector('#incorrect span').textContent =
         parseInt(document.querySelector('#incorrect span').textContent) + 1;
-      showPopup('Incorrect!', 'red');
+      ballElement.style.display = 'none';
+        showPopup('Incorrect!', 'red');
     }
-    resetBallPosition(ballElement);
+    // resetBallPosition(ballElement);
+    // ballElement.style.display = 'none';
   });
 });
 
@@ -702,23 +720,35 @@ colorBalls.forEach(ball => {
   ballElement.dataset.origTransform = ballElement.style.transform || '';
 
   // Desktop drag-and-drop events
-  ballElement.addEventListener('dragstart', (e) => {
-    e.dataTransfer.setData('ball', ball.color);
-    e.dataTransfer.setData('isGrey', ballElement.classList.contains('grey-scale'));
-    e.dataTransfer.setData('ballId', ball.id);
+ ballElement.addEventListener('dragstart', (e) => {
+  e.dataTransfer.setData('ball', ball.color);
+  e.dataTransfer.setData('isGrey', ballElement.classList.contains('grey-scale'));
+  e.dataTransfer.setData('ballId', ball.id);
 
-    // Create a custom drag image
-    const dragImage = ballElement.cloneNode(true);
-    dragImage.style.position = 'absolute';
-    dragImage.style.top = '-9999px';
-    dragImage.style.left = '-9999px';
-    if (ballElement.classList.contains('grey-scale')) {
-      dragImage.style.filter = 'grayscale(100%)';
-    }
-    document.body.appendChild(dragImage);
-    e.dataTransfer.setDragImage(dragImage, 30, 30);
-    setTimeout(() => document.body.removeChild(dragImage), 0);
-  });
+  // Create a custom drag image
+  const dragImage = document.createElement('div');
+  dragImage.style.width = `${ballElement.offsetWidth}px`;
+  dragImage.style.height = `${ballElement.offsetHeight}px`;
+  dragImage.style.borderRadius = '50%';
+  dragImage.style.position = 'absolute';
+  dragImage.style.top = '-9999px';
+  dragImage.style.left = '-9999px';
+  dragImage.style.pointerEvents = 'none';
+  dragImage.style.zIndex = '99999';
+  dragImage.style.boxShadow = '0 8px 24px 0 rgba(0,0,0,0.28)';
+  // dragImage.style.border = '2px solid #888';
+
+  if (ballElement.classList.contains('grey-scale')) {
+    dragImage.style.background = '#bbb';
+     // grey for greyscale
+  } else {
+    dragImage.style.background = ball.color;
+  }
+
+  document.body.appendChild(dragImage);
+  e.dataTransfer.setDragImage(dragImage, ballElement.offsetWidth / 2, ballElement.offsetHeight / 2);
+  setTimeout(() => document.body.removeChild(dragImage), 0);
+});
 
   ballElement.addEventListener('dragend', () => {
     let matched = false;
@@ -728,15 +758,18 @@ colorBalls.forEach(ball => {
         if (ball.color === board.dataset.color) {
           document.querySelector('#correct span').textContent =
             parseInt(document.querySelector('#correct span').textContent) + 1;
-          showPopup('Correct!', 'green');
+          ballElement.style.display = 'none';
+            showPopup('Correct!', 'green');
         } else {
           document.querySelector('#incorrect span').textContent =
             parseInt(document.querySelector('#incorrect span').textContent) + 1;
-          showPopup('Incorrect!', 'red');
+          ballElement.style.display = 'none';
+            showPopup('Incorrect!', 'red');
         }
       }
     });
-    resetBallPosition(ballElement);
+    // resetBallPosition(ballElement);
+    // ballElement.style.display = 'none';
   });
 
   // Touch events
@@ -767,15 +800,18 @@ colorBalls.forEach(ball => {
         if (ball.color === board.dataset.color) {
           document.querySelector('#correct span').textContent =
             parseInt(document.querySelector('#correct span').textContent) + 1;
-          showPopup('Correct!', 'green');
+          ballElement.style.display = 'none';
+            showPopup('Correct!', 'green');
         } else {
           document.querySelector('#incorrect span').textContent =
             parseInt(document.querySelector('#incorrect span').textContent) + 1;
-          showPopup('Incorrect!', 'red');
+          ballElement.style.display = 'none';
+            showPopup('Incorrect!', 'red');
         }
       }
     });
-    resetBallPosition(ballElement);
+    // resetBallPosition(ballElement);
+    
   });
 });
 
@@ -926,6 +962,10 @@ function checkOrientation() {
 window.addEventListener('resize', checkOrientation);
 window.addEventListener('orientationchange', checkOrientation);
 window.addEventListener('DOMContentLoaded', checkOrientation);
+colorBalls.forEach(ball => {
+  const ballElement = document.getElementById(ball.id);
+  ballElement.style.order = Math.floor(Math.random() * 45);
+});
 // Initialize with bad contrast
 setBadContrast();
 </script>
