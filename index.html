@@ -24,6 +24,12 @@ body {
   /* Remove overflow: hidden; */
 }
 
+.left-logos {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
 .logo {
   height: 120px;   /* Slightly smaller for better fit */
   width: 120px;
@@ -389,14 +395,19 @@ button:hover {
 </head>
 <body>
 <!-- Header with logos -->
-<!-- <div class="header-bar">
-  <div hidden class="logo" id="logo-left">  
-    <img src="vm_logo.png" alt="Virgin Money Logo">
-</div> -->
-<!-- Right logo -->
-<div class="logo" id="logo-right">
-  <img src="cog_logo.png" alt="Cognizant Logo">
-</div>
+<div class="header-bar">
+  <div class="left-logos">
+    <div class="logo" id="logo-left">
+      <img src="vm_logo.png" alt="Virgin Money Logo">
+    </div>
+    <div class="logo" id="logo-left-2">
+      <img src="nbs.png" alt="NBS Logo">
+    </div>
+  </div>
+  <!-- Right logo -->
+  <div class="logo" id="logo-right">
+    <img src="cog_logo.png" alt="Cognizant Logo">
+  </div>
 </div>
 
 <!-- Menu -->
